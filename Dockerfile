@@ -11,11 +11,17 @@ RUN apt-get update && apt-get install -y python-pip \
         build-essential \
         wget \
         unzip \
+        zlib1g-dev \
+        && rm -rf /var/lib/apt/lists/* \
+        && docker-php-ext-install zip \
         && pip install --upgrade pip \
         && pip install --upgrade --user awscli \
         && wget https://github.com/certbot/certbot/archive/master.zip -P /usr/local \
         && unzip /usr/local/master.zip -d /usr/local \
         && rm /usr/local/master.zip
+
+VOLUME /etc/apache2
+VOLUME /etc/letsencrypt
 
 # To build:
 # docker build -t <user-name>/wordpress:latest .
